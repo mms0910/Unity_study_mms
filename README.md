@@ -1,4 +1,5 @@
-# Unity_study_mms
+# Unity_study_mms🎏
+
 ==unity项目长时间跑CPU+内存+GPU会挂满，调试完后记得按暂停键关闭调试！！！！！==
 
 
@@ -23,6 +24,52 @@ unity项目 - 最上面一栏 - 第二个编辑 - preferences - 外部工具- �
 
 
 
+[Unity 教程 | 10分钟入门三维旋转的多维数据集 | .NET (microsoft.com)](https://dotnet.microsoft.com/zh-cn/learn/games/unity-tutorial/intro)是Micorsoft官方的下载+小球教程，但会有一些奇奇怪怪的地方
+
+
+
+## 小球运动
+
 教程跟的[【新手小白C#和Unity入门】01__小球运动（1）](https://www.bilibili.com/video/BV1EB4y1p7ti?vd_source=8368ed6f218b06921448305928410b44)
 
-[Unity 教程 | 10分钟入门三维旋转的多维数据集 | .NET (microsoft.com)](https://dotnet.microsoft.com/zh-cn/learn/games/unity-tutorial/intro)是Micorsoft官方的下载+小球教程，但会有一些小问题（它是默认你没VS的）
+
+
+unity里复制某个东西是CTRL+shift+D
+
+确定摄像视角：层级-点击main camera，调整角度后CTRL+shift+F
+
+小球的代码部分如下：
+
+```c#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;  //引入命名空间
+
+public class test : MonoBehaviour
+{
+    Rigidbody rb;//重力初始化，使用前：层级 - 小球  检查器拉到最下面 - 添加组件 - 搜索栏输入Rigidbody
+    Vector3 move;
+    public float speed = 3f;
+    void Start()    //开始调用
+    {
+        /*Destroy(gameObject, 4f);//4秒后消失*/
+        rb = GetComponent<Rigidbody>(); //初始化
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))//如果按到空格键
+        {
+            /*Destroy(gameObject);//直接消失*/
+            rb.AddForce(Vector3.up * 150);//给它150向上的力，展现出“弹跳”的效果。Vector3是力的方向
+        }
+        //asdw上下左右控制
+        move.x = Input.GetAxis("Horizontal");//水平Horizontal=a或s键，可以在unity项目-编辑-项目设置-输入管理器-轴线-水平查看
+        move.z = Input.GetAxis("Vertical");//垂直Vertical=w或d键，可以在unity项目-编辑-项目设置-输入管理器-轴线-垂直查看
+        move = new Vector3(move.x, 0, move.z);
+        rb.AddForce(move * speed);
+    }
+
+}
+```
+
